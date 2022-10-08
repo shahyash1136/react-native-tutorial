@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, Pressable, View, StyleSheet } from "react-native";
-import Colors from "../constants/colors";
+import Colors from "../../constants/colors";
 
 const PrimayButton = ({ children, clickHandler }) => {
   return (
