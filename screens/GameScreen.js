@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, Alert } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import NumberContainer from "../components/game/NumberContainer";
 import Card from "../components/UI/Card";
 import InstructionText from "../components/UI/InstructionText";
 import PrimayButton from "../components/UI/PrimayButton";
 import Title from "../components/UI/Title";
+import Colors from "../constants/colors";
 
 function generateRandomBetween(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -22,12 +24,18 @@ let maxBoundary = 100;
 const GameScreen = ({ userNumber, onGameOver }) => {
   let initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [guessRound, setGuessRound] = useState(initialGuess);
 
   useEffect(() => {
     if (currentGuess === userNumber) {
       onGameOver();
     }
   }, [currentGuess, userNumber, onGameOver]);
+
+  useEffect(() => {
+    maxBoundary = 1;
+    maxBoundary = 100;
+  }, []);
 
   const nextGuessHandler = (direction) => {
     if (
@@ -50,7 +58,9 @@ const GameScreen = ({ userNumber, onGameOver }) => {
       currentGuess
     );
     setCurrentGuess(newRndNumber);
+    setGuessRound((prevState) => [...prevState, newRndNumber]);
   };
+  console.log(guessRound);
   return (
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
@@ -61,14 +71,18 @@ const GameScreen = ({ userNumber, onGameOver }) => {
         </InstructionText>
         <View style={styles.buttonContainer}>
           <PrimayButton clickHandler={() => nextGuessHandler("greater")}>
-            +
+            <Ionicons name='md-add' size={24} color={Colors.white} />
           </PrimayButton>
           <PrimayButton clickHandler={() => nextGuessHandler("lower")}>
-            -
+            <Ionicons name='md-remove' size={24} color={Colors.white} />
           </PrimayButton>
         </View>
       </Card>
-      <View>{/* Log rounds */}</View>
+      <View>
+        {/* {guessRound.map((el) => {
+          return <Text key={el}>{el}</Text>;
+        })} */}
+      </View>
     </View>
   );
 };
