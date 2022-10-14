@@ -27,8 +27,9 @@ export default function App() {
     setUserNumber(pinckedNumber);
     setGameIsOver(false);
   };
-  const gameOverHandler = () => {
+  const gameOverHandler = (numberOfRounds) => {
     setGameIsOver(true);
+    setGuessRounds(numberOfRounds);
   };
   const resetGameHandler = () => {
     setUserNumber(null);
